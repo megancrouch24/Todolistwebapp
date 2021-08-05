@@ -1,3 +1,12 @@
 button {
     background-color: rgb(161, 239, 242);
 }
+h1 {
+    background-color: rgb(192, 230, 233);
+    margin: 10px;
+    display:block;
+	width: 400px;
+	height:20x;
+    border-radius: 10px;
+    box-shadow: cadetblue;
+}

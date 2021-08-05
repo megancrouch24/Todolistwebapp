@@ -1,13 +1,124 @@
 
+//READ ALL
+
+
+fetch("http://localhost:8080/items/readAll") 
+ .then((response) => {
+   if (response.status !== 200) {
+     console.error(`status: ${response.status}`);
+     return;
+   }
+   response.json()
+   .then(data => readAllItems(data))
+  }).catch((err)=> console.error(`${err}`));
+
+
+ function readAllItems(data) {
+  let toDoList = document.getElementById("tasks");
+  for(let i = 0; i < data.length; i++) {
+  let li = document.createElement("li");
+  let input = document.createElement("input");
+  input.setAttribute("type", "checkbox");
+  li.appendChild(input);
+  let label = document.createElement("label")
+  label.textContent = data[i].description;
+  li.appendChild (label);
+  let editButton = document.createElement("button");
+  editButton.textContent = "Edit";
+  editButton.setAttribute("class", "edit");
+  editButton.addEventListener("click",() => editMethod (data[i].id));
+  li.appendChild(editButton);
+  let deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  deleteButton.setAttribute("class", "delete");
+  deleteButton.addEventListener("click",() => deleteMethod (data[i].id));
+  li.appendChild(deleteButton);
+  toDoList.appendChild(li);
+  }
+}
+
+ 
+  const renderToDo = (todo, output) => {
+    const newToDo = document.createElement('div');
+    
+    const description = document.createElement('p');
+    description.innerText = `Todo: ${description}`;
+    newToDo.appendChild(todo);
+    
+    output.appendChild(newToDo);
+  }
+
+//CREATE
+
+  const create = () => {
+let description = document.querySelector("#description").value;
+let priority = document.querySelector("#priority").value;
+
+const myobject = 
+{
+  "description": description, 
+  "priority": priority
+}
+
+fetch("http://localhost:8080/items/createItem", { 
+    method: "post", 
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    },
+    body: JSON.stringify(myobject)
+  })
+  .then(res => res.json())
+  .then((data) => console.log(`Request succeeded with JSON response ${data}`))
+  .catch((error) => console.log(`Request failed ${error}`));
+}
+
+//DELETE
+
+const deleteMethod = (id) => {
+fetch("http://localhost:8080/items/DeleteItem/"+ id, {  
+    method: 'delete'  
+   }).then((data) => {
+    console.log(`Request succeeded with JSON response ${data}`);
+  }).catch((error) => {
+  
+  });
+}
+
+//UPDATE
+const editMethod = (id) => {
+  let description = document.querySelector("#description").value;
+  let priority = document.querySelector("#priority").value;
+
+  const editobject = 
+  {
+    "description": description, 
+    "priority": priority
+  }
+fetch("http://localhost:8080/items/update/"+ id, {
+    method: 'put', 
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(editobject)
+  }).then((data) => {
+    console.log(`Request succeeded with JSON response ${data}`);
+}).catch((error) => console.log(`Request failed ${error}`));
+
+}
+
+
+
+
+
 var taskInput = document.getElementById("new-task");
 var addButton = document.getElementsByTagName("button")[0];
-var incTaskHolder = document.getElementById("incomplete-tasks");
-var compTaskHolder = document.getElementById("completed-tasks");
+var incTaskHolder = document.getElementById("tasks");
+
 
 //New Task List Item
 var createNewTaskElement = function(taskString){
     var listItem = document.createElement("li");
-    //input (checkbox)
+   //input (checkbox)
     var checkBox = document.createElement("input"); //checkbox
     //label
     var label = document.createElement("label");
@@ -20,14 +131,9 @@ var createNewTaskElement = function(taskString){
     //Each element needs modifying
     checkBox.type = "checkbox";
     editInput.type = "text";
-
     editButton.innerText = "Edit";
     editButton.className = "edit";
     deleteButton.innerText = "Delete";
-    deleteButton.className = "delete";
-
-    label.innerText = taskString;
-
     //Each element needs appending
     listItem.appendChild(checkBox); 
     listItem.appendChild(label); 
@@ -36,20 +142,6 @@ var createNewTaskElement = function(taskString){
     listItem.appendChild(deleteButton); 
 
     return listItem
-}
-
-//Add a new task
-
-var addTask = function(){
-  console.log("Add task...");
-
-     //when button is pressed, 
-     //create a new list item with the text from #newtask
-    var listItem = createNewTaskElement(taskInput.value);
-
-    //append li to inctaskholder
-    incTaskHolder.appendChild(listItem);
-    bindTaskEvents(listItem, taskComp);
 }
 
 
@@ -107,18 +199,6 @@ var taskComp = function(){
 }
 
 
-
-//mark a task as incomplete
-var taskInc = function(){
-  console.log("incompleted task...");
-  //when the checkbox is unchecked
-      //append the task list itm to the #incompletedtasks 
-  var listItem = this.parentNode;
-  incTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskComp);
-
-}
-
 var bindTaskEvents = function(taskListItem, checkBoxEventHandler){
   console.log("bind list item events...");
   //select li's children
@@ -138,18 +218,18 @@ var bindTaskEvents = function(taskListItem, checkBoxEventHandler){
 
 //Set the click-handler to the addTask function
 
-addButton.onclick = addTask;
+//addButton.onclick = addTask;
 
 
-//cycle over inctaskholder ul ils
-for(var i = 0; i < incTaskHolder.children.length; i++){
-   //bind events to list item's children
-  bindTaskEvents(incTaskHolder.children[i], taskComp);
-}
+// //cycle over inctaskholder ul ils
+// for(var i = 0; i < incTaskHolder.children.length; i++){
+//    //bind events to list item's children
+//   bindTaskEvents(incTaskHolder.children[i], taskComp);
+// }
 
 
-//cycle over comptaskholder ul ils
-for(var i = 0; i < compTaskHolder.children.length; i++){
-   //bind events to list item's children
-  bindTaskEvents(compTaskHolder.children[i], taskInc);
-}
+// //cycle over comptaskholder ul ils
+// for(var i = 0; i < compTaskHolder.children.length; i++){
+//    //bind events to list item's children
+//   bindTaskEvents(compTaskHolder.children[i], taskInc);
+// }
