@@ -1,9 +1,12 @@
 
 //READ ALL
 
+const taskrefresh = document.querySelector("#tasks");
 
+const readmethod = () => {
 fetch("http://localhost:8080/items/readAll") 
  .then((response) => {
+   taskrefresh.innerHTML = " ";
    if (response.status !== 200) {
      console.error(`status: ${response.status}`);
      return;
@@ -11,28 +14,37 @@ fetch("http://localhost:8080/items/readAll")
    response.json()
    .then(data => readAllItems(data))
   }).catch((err)=> console.error(`${err}`));
+}
 
-
- function readAllItems(data) {
+ function readAllItems(todo) {
   let toDoList = document.getElementById("tasks");
-  for(let i = 0; i < data.length; i++) {
+  for(let i = 0; i < todo.length; i++) {
   let li = document.createElement("li");
-  let input = document.createElement("input");
-  input.setAttribute("type", "checkbox");
-  li.appendChild(input);
+
   let label = document.createElement("label")
-  label.textContent = data[i].description;
+  label.textContent = todo[i].description;
   li.appendChild (label);
+
+  let editInput = document.createElement("input")
+  editInput.setAttribute("type", "textbox");
+  editInput.id = "textbox" + todo[i].id
+  li.appendChild(editInput);
+
+
   let editButton = document.createElement("button");
   editButton.textContent = "Edit";
   editButton.setAttribute("class", "edit");
-  editButton.addEventListener("click",() => editMethod (data[i].id));
+  editButton.addEventListener("click",() => editMethod (todo[i].id));
   li.appendChild(editButton);
+ 
+
   let deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
   deleteButton.setAttribute("class", "delete");
-  deleteButton.addEventListener("click",() => deleteMethod (data[i].id));
-  li.appendChild(deleteButton);
+  deleteButton.addEventListener("click",() => deleteMethod (todo[i].id));
+ li.appendChild(deleteButton);
+
+ 
   toDoList.appendChild(li);
   }
 }
@@ -86,14 +98,17 @@ fetch("http://localhost:8080/items/DeleteItem/"+ id, {
 
 //UPDATE
 const editMethod = (id) => {
-  let description = document.querySelector("#description").value;
-  let priority = document.querySelector("#priority").value;
+  let editInput = document.querySelector("input#textbox" + id).value;
 
+console.dir(editInput)
   const editobject = 
   {
-    "description": description, 
-    "priority": priority
+    "id":id,
+    "priority": "very boring ",
+        "description" : editInput
+    
   }
+  console.log(editobject)
 fetch("http://localhost:8080/items/update/"+ id, {
     method: 'put', 
     headers: {
@@ -101,6 +116,7 @@ fetch("http://localhost:8080/items/update/"+ id, {
     },
     body: JSON.stringify(editobject)
   }).then((data) => {
+    readmethod();
     console.log(`Request succeeded with JSON response ${data}`);
 }).catch((error) => console.log(`Request failed ${error}`));
 
@@ -214,22 +230,4 @@ var bindTaskEvents = function(taskListItem, checkBoxEventHandler){
   checkBox.onchange = checkBoxEventHandler;
 
  }
-
-
-//Set the click-handler to the addTask function
-
-//addButton.onclick = addTask;
-
-
-// //cycle over inctaskholder ul ils
-// for(var i = 0; i < incTaskHolder.children.length; i++){
-//    //bind events to list item's children
-//   bindTaskEvents(incTaskHolder.children[i], taskComp);
-// }
-
-
-// //cycle over comptaskholder ul ils
-// for(var i = 0; i < compTaskHolder.children.length; i++){
-//    //bind events to list item's children
-//   bindTaskEvents(compTaskHolder.children[i], taskInc);
-// }
+readmethod();
