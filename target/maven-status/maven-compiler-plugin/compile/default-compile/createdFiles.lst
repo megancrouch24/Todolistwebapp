@@ -1,0 +1,5 @@
+com\example\rest\Items.class
+com\example\controller\ItemsController.class
+com\example\itemrepo\ItemRepo.class
+com\example\service\ItemService.class
+com\example\TdLspringprojectApplication.class
