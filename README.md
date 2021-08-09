@@ -3,8 +3,7 @@ Create a full-stack web application following the Enterprise Architecture Model,
 •	an application back-end developed using the language from your Programming Fundamentals module (e.g. Java)
 •	a managed database hosted locally or within the Cloud Provider examined during your Cloud Fundamentals module (e.g. MySQL in GCP)
 •	a front-end developed using the language from your Front-End Web Technologies module (e.g. JavaScript)
-etting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
 
 Prerequisites-
 Git download.
@@ -16,7 +15,7 @@ Visual Studio Code download.
 Installing
 A step by step series of examples that tell you how to get a development env running
 
-Copy this project url: https://github.com/simonwhiteQA/TDL-PROJECT.git
+Copy this project url: 
 
 Open Git bash
 
