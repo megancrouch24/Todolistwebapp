@@ -1,28 +1,17 @@
+button {
+    background-color: rgb(161, 239, 242);
+}
 h1 {
-    text-align: center;
-    color: rgb(243, 234, 219);
-    background-color: rgb(218, 171, 127);
-    width: 150px;
-    margin: 10px
-    
+    background-color: rgb(192, 230, 233);
+    margin: 10px;
+    display:block;
+	width: 400px;
+	height:20x;
+    border-radius: 10px;
+    box-shadow: cadetblue;
 }
 
-h3 {
-    color: rgb(185, 151, 107);
-    
+label {
+
+    background-color: rgb(173, 233, 233);
 }
-button {
-    background-color: rgb(185, 151, 107);
-    border: none;
-    color: white;
-    padding: 15px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  }
-  p{
-      color: rgb(151, 94, 94);
-      
-  }
