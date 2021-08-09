@@ -1,0 +1,1 @@
+INSERT INTO items (`description`, `priority`) VALUES ('buy suncream', 'medium');
