@@ -87,7 +87,7 @@ fetch("http://localhost:8080/items/createItem", {
 //DELETE
 
 const deleteMethod = (id) => {
-fetch("http://localhost:8080/items/DeleteItem/"+ id, {  
+fetch("http://localhost:8080/items/deleteItem/"+ id, {  
     method: 'delete'  
    }).then((data) => {
     console.log(`Request succeeded with JSON response ${data}`);

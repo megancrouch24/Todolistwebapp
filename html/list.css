@@ -10,3 +10,8 @@ h1 {
     border-radius: 10px;
     box-shadow: cadetblue;
 }
+
+label {
+
+    background-color: rgb(173, 233, 233);
+}
